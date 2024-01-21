@@ -10,7 +10,7 @@
 #include "fmt/format.h"
 
 #include "gctk_common.hpp"
-#include "gctk_string.hpp"
+#include "strlib/string.hpp"
 #include "gctk_math.hpp"
 #include "gctk_debug.hpp"
 

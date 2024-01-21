@@ -4,6 +4,9 @@
 #include <optional>
 #include <vector>
 
+#include <cstdlib>
+#include <cstring>
+
 #ifndef __GNUC__
 	#if SIZE_MAX == UINT32_MAX
 		typedef int32_t ssize_t;
@@ -68,7 +71,7 @@ namespace Gctk {
 			std::vector<uint8_t> bytes;
 			bytes.reserve(sizeof(T));
 			read(bytes, sizeof(T));
-			std::memcpy(&value, bytes.data(), sizeof(T));
+			std::memcpy(&value, reinterpret_cast<const T*>(bytes.data()), sizeof(T));
 
 			return true;
 		}
