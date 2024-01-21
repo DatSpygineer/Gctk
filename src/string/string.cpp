@@ -333,3 +333,12 @@ std::vector<String> String::split(const String& delim) const {
 	}
 	return tokens;
 }
+
+std::ostream& operator<<(std::ostream& os, const String& string) {
+	os << string.m_sString;
+	return os;
+}
+std::istream& operator>>(std::istream& is, String& string) {
+	is >> string.m_sString;
+	return is;
+}
