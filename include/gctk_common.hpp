@@ -27,11 +27,10 @@ namespace Gctk {
 
 		Option<T> m_value;
 		Option<E> m_error;
-
 	public:
 		Result(const Option<T>& value, const Option<E>& error): m_value(value), m_error(error) { }
-		Result(const T& value): m_value({ value }), m_error(std::nullopt) { }
-		Result(const E& error): m_value(std::nullopt), m_error({ error }) { }
+		Result(const T& value): m_value({ value }), m_error(std::nullopt) { } // NOLINT: Implicit conversion is intended.
+		Result(const E& error): m_value(std::nullopt), m_error({ error }) { } // NOLINT: Implicit conversion is intended.
 
 		inline constexpr T unwrap() const {
 			if (m_value.has_value()) {
@@ -61,9 +60,9 @@ namespace Gctk {
 		using difference_type = std::vector<uint8_t>::difference_type;
 
 		explicit ByteReader(size_t capacity = 0): m_data(), m_uPosition(0) { m_data.reserve(capacity); }
-		ByteReader(std::vector<uint8_t>&& data): m_data(std::move(data)), m_uPosition(0) { }
-		ByteReader(const std::vector<uint8_t>& data): m_data(data), m_uPosition(0) { }
-		ByteReader(ByteReader&& reader) = default;
+		explicit ByteReader(std::vector<uint8_t>&& data) noexcept: m_data(std::move(data)), m_uPosition(0) { }
+		explicit ByteReader(const std::vector<uint8_t>& data): m_data(data), m_uPosition(0) { }
+		ByteReader(ByteReader&& reader) noexcept = default;
 		ByteReader(const ByteReader& reader) = default;
 
 		template<typename T>
@@ -91,8 +90,8 @@ namespace Gctk {
 			return m_data.at(m_uPosition++);
 		}
 
-		inline constexpr size_t remaining() const { return m_data.size() - m_uPosition; }
-		inline constexpr size_t position() const { return m_uPosition; }
+		[[nodiscard]] inline constexpr size_t remaining() const { return m_data.size() - m_uPosition; }
+		[[nodiscard]] inline constexpr size_t position() const { return m_uPosition; }
 		inline bool position(size_t pos) {
 			if (pos >= m_data.size()) {
 				return false;
