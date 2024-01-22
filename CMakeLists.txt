@@ -17,10 +17,10 @@ find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(Lua REQUIRED)
 
+set(GLM_ENABLE_CXX_20 ON)
+
 add_subdirectory(submodules/fmt)
 add_subdirectory(submodules/glm)
-
-set(GLM_ENABLE_CXX_20 ON)
 
 target_compile_options(glm PUBLIC -Wno-unsafe-buffer-usage)
 target_compile_definitions(glm PUBLIC GLM_ENABLE_EXPERIMENTAL)
