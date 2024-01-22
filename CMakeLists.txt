@@ -41,6 +41,8 @@ add_library(Gctk::Math ALIAS GctkMath)
 add_library(StrLib STATIC ${CMAKE_CURRENT_LIST_DIR}/src/string/string.cpp)
 add_library(Gctk::StrLib ALIAS StrLib)
 
+target_include_directories(GctkGtex PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/gtex)
+target_include_directories(GctkMath PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/math)
 target_include_directories(StrLib PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/strlib)
 target_include_directories(Gctk PUBLIC ${LUA_INCLUDE_DIR})
 

@@ -11,7 +11,7 @@
 
 #include "gctk_common.hpp"
 #include "strlib/string.hpp"
-#include "gctk_math.hpp"
+#include "math/gctk_math.hpp"
 #include "gctk_debug.hpp"
 
 namespace Gctk {
