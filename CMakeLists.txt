@@ -15,7 +15,6 @@ endif ()
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(Lua REQUIRED)
 
 set(GLM_ENABLE_CXX_20 ON)
 
@@ -31,25 +30,19 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
 add_library(Gctk STATIC ${GCTK_SOURCES})
 add_library(Gctk::Gctk ALIAS Gctk)
-
 add_library(GctkGtex STATIC ${CMAKE_CURRENT_LIST_DIR}/src/gtex/gctk_gtex.cpp)
 add_library(Gctk::Gtex ALIAS GctkGtex)
-
 add_library(GctkMath STATIC ${CMAKE_CURRENT_LIST_DIR}/src/math/gctk_math.cpp)
 add_library(Gctk::Math ALIAS GctkMath)
-
-add_library(StrLib STATIC ${CMAKE_CURRENT_LIST_DIR}/src/string/string.cpp)
+add_library(StrLib STATIC ${CMAKE_CURRENT_LIST_DIR}/src/string/date.cpp ${CMAKE_CURRENT_LIST_DIR}/src/string/string.cpp)
 add_library(Gctk::StrLib ALIAS StrLib)
 
-target_include_directories(GctkGtex PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/gtex)
-target_include_directories(GctkMath PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/math)
 target_include_directories(StrLib PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/strlib)
-target_include_directories(Gctk PUBLIC ${LUA_INCLUDE_DIR})
 
 target_link_libraries(StrLib PUBLIC fmt::fmt)
 target_link_libraries(GctkGtex PUBLIC OpenGL::GL GLEW::GLEW)
 target_link_libraries(GctkMath PUBLIC glm::glm  Gctk::StrLib)
-target_link_libraries(Gctk PUBLIC OpenGL::GL SDL2::SDL2 SDL2::SDL2main GLEW::GLEW GctkMath GctkGtex Gctk::StrLib ${LUA_LIBRARIES})
+target_link_libraries(Gctk PUBLIC OpenGL::GL SDL2::SDL2 SDL2::SDL2main GLEW::GLEW GctkMath GctkGtex Gctk::StrLib)
 
 add_executable(GctkTest test/main.cpp)
 target_link_libraries(GctkTest PRIVATE Gctk::Gctk)

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "fmt/format.h"
 
 class String {
@@ -124,7 +124,9 @@ public:
 	[[nodiscard]] bool parse(long double& value) const;
 
 	template<typename ...T>
-	static String Format(const String& format, T... args);
+	inline static String Format(const String& format, T&&... args) {
+		return { fmt::vformat(format.m_sString, fmt::make_format_args(args...)) };
+	}
 	static String FromUTF16(const wchar_t* cstr);
 
 	[[nodiscard]] inline String operator+ (char c) const { return { m_sString + c }; }
@@ -172,8 +174,8 @@ public:
 	explicit Exception(String&& message) noexcept: m_sMessage(std::move(message)) { }
 	explicit Exception(const String& message) noexcept: m_sMessage(message) { }
 	template<typename ...T>
-	explicit Exception(const String& format, T... args) noexcept: m_sMessage(String::Format(format, args...)) { }
+	explicit Exception(const String& format, T... args) noexcept: m_sMessage({ fmt::vformat(format.std_str(), fmt::make_format_args(args...)) }) { }
 
-	[[nodiscard]] const char* what() const noexcept override { return m_sMessage.c_str(); }
-	[[nodiscard]] constexpr const String& message() const noexcept { return m_sMessage; }
+	[[nodiscard]] virtual String message() const noexcept { return m_sMessage; }
+	[[nodiscard]] const char* what() const noexcept override { return message().c_str(); }
 };

@@ -289,10 +289,6 @@ bool String::parse(long double& value) const {
 	return true;
 }
 
-template<typename ...T>
-String String::Format(const String& format, T ...args) {
-	return fmt::format(format.m_sString, args...);
-}
 String String::FromUTF16(const wchar_t* cstr) {
 	const size_t n = wcslen(cstr);
 	String str;
