@@ -15,17 +15,39 @@ On Windows packages are loaded using VCPKG.<br/>
 
 First make sure you have SDL2, GLEW and Lua libraries installed.
 ```shell
-vcpkg install SDL2 GLEW lua
+vcpkg install SDL2 GLEW
 ```
 
-You'll need the source code of angel script, download the SDK from their website https://www.angelcode.com/angelscript/downloads.html
-
+You'll need the source code of angel script, download the SDK from their website https://www.angelcode.com/angelscript/downloads.html<br/>
 Open the downloaded ZIP file and extract it into submodules/angelscript
 
 After you've installed the required libraries and setup the tool chain with your IDE, the project should build with no issues.
 
 #### Linux:
-TODO
+
+Download dependencies with your system's package manager.
+
+###### Apt:
+```shell
+apt install libsdl2-dev libglew-dev
+```
+###### Pacman:
+```shell
+pacman -S sdl2 glew
+```
+###### Dnf:
+```shell
+dnf install SDL2-devel glew
+```
+###### Yum:
+```shell
+yum install SDL2-devel glew
+```
+
+You'll need the source code of angel script, download the SDK from their website https://www.angelcode.com/angelscript/downloads.html<br/>
+Open the downloaded ZIP file and extract it into submodules/angelscript
+
+After all dependencies are met, the project should build with no issues.
 
 ## Dependencies:
 - GLEW
