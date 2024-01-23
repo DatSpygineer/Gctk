@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <GL/glew.h>
 
-#include "gctk_gtex.hpp"
-#include "gctk_math.hpp"
+#include "gtex/gctk_gtex.hpp"
+#include "math/gctk_math.hpp"
 #include "gctk_debug.hpp"
 #include "gctk_common.hpp"
 
