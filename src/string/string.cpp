@@ -293,8 +293,21 @@ String String::FromUTF16(const wchar_t* cstr) {
 	const size_t n = wcslen(cstr);
 	String str;
 	str.reserve(n);
-	wcstombs(str.m_sString.data(), cstr, n);
+	if (wcstombs(str.m_sString.data(), cstr, n) == static_cast<size_t>(-1)) {
+		return "?";
+	}
 	return str;
+}
+
+String String::FromChar(char value) {
+	return String(value, 1);
+}
+String String::FromChar(wchar_t value) {
+	char mbc = 0;
+	if (wctomb(&mbc, value) < 0) {
+		return "?";
+	}
+	return String(mbc, 1);
 }
 
 const size_t String::NoFind = std::string::npos;
@@ -337,4 +350,216 @@ std::ostream& operator<<(std::ostream& os, const String& string) {
 std::istream& operator>>(std::istream& is, String& string) {
 	is >> string.m_sString;
 	return is;
+}
+
+String String::From(uint8_t value, int base) {
+	String result;
+	switch (base) {
+		case 2: {
+			size_t n = (value / 2) + 1;
+			for (size_t i = 0; i < n; i++) {
+				result += ((value >> 1) & 1) ? '1' : '0';
+			}
+		} break;
+		case 8: {
+			result.reserve(snprintf(nullptr, 0, "%hho", value));
+			snprintf(result.data(), result.capacity(), "%hho", value);
+		} break;
+		case 16: {
+			result.reserve(snprintf(nullptr, 0, "%hhX", value));
+			snprintf(result.data(), result.capacity(), "%hhX", value);
+		} break;
+		default: {
+			result.reserve(snprintf(nullptr, 0, "%hhu", value));
+			snprintf(result.data(), result.capacity(), "%hhu", value);
+		} break;
+	}
+	return result;
+}
+String String::From(uint16_t value, int base) {
+	String result;
+	switch (base) {
+		case 2: {
+			size_t n = (value / 2) + 1;
+			for (size_t i = 0; i < n; i++) {
+				result += ((value >> 1) & 1) ? '1' : '0';
+			}
+		} break;
+		case 8: {
+			result.reserve(snprintf(nullptr, 0, "%ho", value));
+			snprintf(result.data(), result.capacity(), "%ho", value);
+		} break;
+		case 16: {
+			result.reserve(snprintf(nullptr, 0, "%hX", value));
+			snprintf(result.data(), result.capacity(), "%hX", value);
+		} break;
+		default: {
+			result.reserve(snprintf(nullptr, 0, "%hu", value));
+			snprintf(result.data(), result.capacity(), "%hu", value);
+		} break;
+	}
+	return result;
+}
+String String::From(uint32_t value, int base) {
+	String result;
+	switch (base) {
+		case 2: {
+			size_t n = (value / 2) + 1;
+			for (size_t i = 0; i < n; i++) {
+				result += ((value >> 1) & 1) ? '1' : '0';
+			}
+		} break;
+		case 8: {
+			result.reserve(snprintf(nullptr, 0, "%lo", value));
+			snprintf(result.data(), result.capacity(), "%lo", value);
+		} break;
+		case 16: {
+			result.reserve(snprintf(nullptr, 0, "%lX", value));
+			snprintf(result.data(), result.capacity(), "%lX", value);
+		} break;
+		default: {
+			result.reserve(snprintf(nullptr, 0, "%lu", value));
+			snprintf(result.data(), result.capacity(), "%lu", value);
+		} break;
+	}
+	return result;
+}
+String String::From(uint64_t value, int base) {
+	String result;
+	switch (base) {
+		case 2: {
+			size_t n = (value / 2) + 1;
+			for (size_t i = 0; i < n; i++) {
+				result += ((value >> 1) & 1) ? '1' : '0';
+			}
+		} break;
+		case 8: {
+			result.reserve(snprintf(nullptr, 0, "%llo", value));
+			snprintf(result.data(), result.capacity(), "%llo", value);
+		} break;
+		case 16: {
+			result.reserve(snprintf(nullptr, 0, "%llX", value));
+			snprintf(result.data(), result.capacity(), "%llX", value);
+		} break;
+		default: {
+			result.reserve(snprintf(nullptr, 0, "%llu", value));
+			snprintf(result.data(), result.capacity(), "%llu", value);
+		} break;
+	}
+	return result;
+}
+String String::From(int8_t value, int base) {
+	String result;
+	switch (base) {
+		case 2: {
+			size_t n = (value / 2) + 1;
+			for (size_t i = 0; i < n; i++) {
+				result += ((value >> 1) & 1) ? '1' : '0';
+			}
+		} break;
+		case 8: {
+			result.reserve(snprintf(nullptr, 0, "%hho", value));
+			snprintf(result.data(), result.capacity(), "%hho", value);
+		} break;
+		case 16: {
+			result.reserve(snprintf(nullptr, 0, "%hhX", value));
+			snprintf(result.data(), result.capacity(), "%hhX", value);
+		} break;
+		default: {
+			result.reserve(snprintf(nullptr, 0, "%hhd", value));
+			snprintf(result.data(), result.capacity(), "%hhd", value);
+		} break;
+	}
+	return result;
+}
+String String::From(int16_t value, int base) {
+	String result;
+	switch (base) {
+		case 2: {
+			size_t n = (value / 2) + 1;
+			for (size_t i = 0; i < n; i++) {
+				result += ((value >> 1) & 1) ? '1' : '0';
+			}
+		} break;
+		case 8: {
+			result.reserve(snprintf(nullptr, 0, "%ho", value));
+			snprintf(result.data(), result.capacity(), "%ho", value);
+		} break;
+		case 16: {
+			result.reserve(snprintf(nullptr, 0, "%hX", value));
+			snprintf(result.data(), result.capacity(), "%hX", value);
+		} break;
+		default: {
+			result.reserve(snprintf(nullptr, 0, "%hd", value));
+			snprintf(result.data(), result.capacity(), "%hd", value);
+		} break;
+	}
+	return result;
+}
+String String::From(int32_t value, int base) {
+	String result;
+	switch (base) {
+		case 2: {
+			size_t n = (value / 2) + 1;
+			for (size_t i = 0; i < n; i++) {
+				result += ((value >> 1) & 1) ? '1' : '0';
+			}
+		} break;
+		case 8: {
+			result.reserve(snprintf(nullptr, 0, "%lo", value));
+			snprintf(result.data(), result.capacity(), "%lo", value);
+		} break;
+		case 16: {
+			result.reserve(snprintf(nullptr, 0, "%lX", value));
+			snprintf(result.data(), result.capacity(), "%lX", value);
+		} break;
+		default: {
+			result.reserve(snprintf(nullptr, 0, "%ld", value));
+			snprintf(result.data(), result.capacity(), "%ld", value);
+		} break;
+	}
+	return result;
+}
+String String::From(int64_t value, int base) {
+	String result;
+	switch (base) {
+		case 2: {
+			size_t n = (value / 2) + 1;
+			for (size_t i = 0; i < n; i++) {
+				result += ((value >> 1) & 1) ? '1' : '0';
+			}
+		} break;
+		case 8: {
+			result.reserve(snprintf(nullptr, 0, "%llo", value));
+			snprintf(result.data(), result.capacity(), "%llo", value);
+		} break;
+		case 16: {
+			result.reserve(snprintf(nullptr, 0, "%llX", value));
+			snprintf(result.data(), result.capacity(), "%llX", value);
+		} break;
+		default: {
+			result.reserve(snprintf(nullptr, 0, "%lld", value));
+			snprintf(result.data(), result.capacity(), "%lld", value);
+		} break;
+	}
+	return result;
+}
+
+String String::From(float value) {
+	String result('\0', snprintf(nullptr, 0, "%g", value));
+	snprintf(result.data(), result.capacity(), "%g", value);
+	return result;
+}
+String String::From(double value) {
+	String result('\0', snprintf(nullptr, 0, "%lg", value));
+	snprintf(result.data(), result.capacity(), "%lg", value);
+	return result;
+}
+String String::From(long double value) {
+	String result('\0', snprintf(nullptr, 0, "%Lg", value));
+	snprintf(result.data(), result.capacity(), "%Lg", value);
+	return result;
+}
+String String::From(bool value) {
+	return value ? "true" : "false";
 }

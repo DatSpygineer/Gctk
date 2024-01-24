@@ -131,6 +131,21 @@ public:
 		return { fmt::vformat(format.m_sString, fmt::make_format_args(args...)) };
 	}
 	static String FromUTF16(const wchar_t* cstr);
+	static String FromChar(char value);
+	static String FromChar(wchar_t value);
+
+	static String From(uint8_t value, int base = 10);
+	static String From(uint16_t value, int base = 10);
+	static String From(uint32_t value, int base = 10);
+	static String From(uint64_t value, int base = 10);
+	static String From(int8_t value, int base = 10);
+	static String From(int16_t value, int base = 10);
+	static String From(int32_t value, int base = 10);
+	static String From(int64_t value, int base = 10);
+	static String From(float value);
+	static String From(double value);
+	static String From(long double value);
+	static String From(bool value);
 
 	[[nodiscard]] inline String operator+ (char c) const { return { m_sString + c }; }
 	[[nodiscard]] inline String operator+ (const String& other) const { return { m_sString + other.m_sString }; }
