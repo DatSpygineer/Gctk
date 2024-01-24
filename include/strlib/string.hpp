@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -35,6 +36,8 @@ public:
 	String& operator= (const String& other) = default;
 
 	[[nodiscard]] inline constexpr size_t length() const noexcept { return m_sString.length(); }
+	[[nodiscard]] inline constexpr size_t size() const noexcept { return m_sString.size(); }
+	[[nodiscard]] inline constexpr size_t capacity() const noexcept { return m_sString.capacity(); }
 	[[nodiscard]] inline constexpr bool is_empty() const noexcept { return m_sString.empty(); }
 
 	inline constexpr char* data() { return m_sString.data(); }

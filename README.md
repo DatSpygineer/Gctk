@@ -51,7 +51,7 @@ After all dependencies are met, the project should build with no issues.
 
 ## Dependencies:
 - GLEW
-- AngelScript
+- AngelScript (Version 2.36.1)
 - SDL2
 - GLM (as submodule)
 - FMT lib (as submodule)
