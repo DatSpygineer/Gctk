@@ -28,8 +28,10 @@ namespace Gctk {
 		BC1A,
 		BC2,
 		BC3,
-		BC4,
-		BC5,
+		BC4U,
+		BC4S,
+		BC5U,
+		BC5S,
 		BC6S,
 		BC6U,
 		BC7,
@@ -53,10 +55,12 @@ namespace Gctk {
 			case GTexPixelFormat::BC1A: return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 			case GTexPixelFormat::BC2: return GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
 			case GTexPixelFormat::BC3: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-			case GTexPixelFormat::BC4: return GL_VIEW_CLASS_RGTC1_RED;
-			case GTexPixelFormat::BC5: return GL_VIEW_CLASS_RGTC2_RG;
-			case GTexPixelFormat::BC6S: return GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+			case GTexPixelFormat::BC4U: return GL_COMPRESSED_RED_RGTC1;
+			case GTexPixelFormat::BC4S: return GL_COMPRESSED_SIGNED_RED_RGTC1;
+			case GTexPixelFormat::BC5U: return GL_COMPRESSED_RG_RGTC2;
+			case GTexPixelFormat::BC5S: return GL_COMPRESSED_SIGNED_RG_RGTC2;
 			case GTexPixelFormat::BC6U: return GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT;
+			case GTexPixelFormat::BC6S: return GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
 			case GTexPixelFormat::BC7: return GL_COMPRESSED_RGBA_BPTC_UNORM;
 		}
 	}
@@ -64,8 +68,8 @@ namespace Gctk {
 		switch (format) {
 			case GTexPixelFormat::Luminescence: return GL_LUMINANCE;
 			case GTexPixelFormat::LuminescenceWithAlpha: return GL_LUMINANCE_ALPHA;
-			case GTexPixelFormat::BC4: return GL_RED;
-			case GTexPixelFormat::BC5: return GL_RG;
+			case GTexPixelFormat::BC4U: case GTexPixelFormat::BC4S: return GL_RED;
+			case GTexPixelFormat::BC5U: case GTexPixelFormat::BC5S: return GL_RG;
 			case GTexPixelFormat::BC1: case GTexPixelFormat::BC6S:
 			case GTexPixelFormat::Indexed8: case GTexPixelFormat::Indexed16: case GTexPixelFormat::BC6U: case GTexPixelFormat::RGB: return GL_RGB;
 			case GTexPixelFormat::BGR: return GL_BGR;

@@ -13,11 +13,23 @@ namespace Gctk {
 		OpenGLInitError,
 		ParseError,
 		FormatError,
+
 		TextureLoadError,
 		TextureHeaderMissing,
 		TextureIdentifierError,
 		TextureOpenGLError,
+
+		MeshLoadError,
+		MeshHeaderMissing,
+		MeshIdentifierError,
+		MeshOpenGLError,
+
+		ShaderCompileError,
+		ShaderLinkerError,
+
 		OpenGLRuntimeError,
+
+		CannotOpenFile
 	};
 
 	class EngineError : public Exception {

@@ -73,6 +73,9 @@ public:
 	[[nodiscard]] String to_lowercase() const;
 	[[nodiscard]] String to_uppercase() const;
 
+	inline String& append(char c) { m_sString.push_back(c); return *this; }
+	inline String& append(const String& str) { m_sString += str.m_sString; return *this; }
+
 	iterator insert(size_t at, char c);
 	iterator insert(size_t at, const String& str);
 	iterator insert(const iterator& at, char c);

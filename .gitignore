@@ -25,3 +25,8 @@ _deps
 # Do not include angel script sources
 
 submodules/angelscript/sdk
+
+# Unused/deprecated
+
+./include/gl
+./src/gl

@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "strlib/string.hpp"
+
 #ifndef __GNUC__
 	#if SIZE_MAX == UINT32_MAX
 		typedef int32_t ssize_t;
@@ -75,12 +77,80 @@ namespace Gctk {
 			return true;
 		}
 		inline bool read(std::vector<uint8_t>& bytes, size_t n) {
+			if (n == 0) {
+				if (bytes.capacity() == 0) {
+					return false;
+				}
+				n = bytes.capacity();
+			} else {
+				bytes.reserve(n);
+			}
+
 			for (size_t i = 0; i < n; i++) {
 				if (m_uPosition >= m_data.size()) {
 					return false;
 				}
 				bytes.push_back(m_data.at(m_uPosition++));
 			}
+			return true;
+		}
+		inline bool read(String& str, size_t n) {
+			if (n == 0) {
+				if (str.capacity() == 0) {
+					return false;
+				} else {
+					n = str.capacity();
+				}
+			} else {
+				str.reserve(n);
+			}
+
+			for (size_t i = 0; i < n; i++) {
+				if (m_uPosition >= m_data.size()) {
+					return false;
+				}
+				str.append(static_cast<char>(m_data.at(m_uPosition++)));
+			}
+
+			return true;
+		}
+		inline bool read(String& str) {
+			if (str.capacity() == 0) {
+				return false;
+			}
+
+			for (size_t i = 0; i < str.capacity(); i++) {
+				if (m_uPosition >= m_data.size()) {
+					return false;
+				}
+				str.append(static_cast<char>(m_data.at(m_uPosition++)));
+			}
+
+			return true;
+		}
+
+		template<typename T>
+		inline bool read(std::vector<T>& elements, size_t n, bool reserve = true) {
+			if (reserve) {
+				if (n == 0) {
+					if (elements.capacity() == 0) {
+						return false;
+					} else {
+						n = elements.capacity();
+					}
+				} else {
+					elements.reserve(n);
+				}
+			}
+
+			for (size_t i = 0; i < n; i++) {
+				T temp;
+				if (!read(temp)) {
+					return false;
+				}
+				elements.push_back(temp);
+			}
+
 			return true;
 		}
 		inline uint8_t read_byte() {
