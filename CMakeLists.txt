@@ -4,7 +4,6 @@ project(GctkGtex)
 project(GctkMath)
 project(GctkTest)
 project(StrLib)
-project(GLpp)
 
 project(Gctk)
 
@@ -28,7 +27,6 @@ target_compile_options(glm PUBLIC -Wno-unsafe-buffer-usage)
 target_compile_definitions(glm PUBLIC GLM_ENABLE_EXPERIMENTAL)
 
 file(GLOB GCTK_SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
-file(GLOB GLPP_SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/gl/*.cpp)
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
@@ -41,18 +39,14 @@ add_library(Gctk::Math ALIAS GctkMath)
 add_library(StrLib STATIC ${CMAKE_CURRENT_LIST_DIR}/src/string/date.cpp ${CMAKE_CURRENT_LIST_DIR}/src/string/string.cpp)
 add_library(Gctk::StrLib ALIAS StrLib)
 
-add_library(GLpp STATIC ${GLPP_SOURCES})
-
 target_include_directories(GctkMath PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/math)
 target_include_directories(GctkGtex PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/gtex)
 target_include_directories(StrLib PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/strlib)
-target_include_directories(GLpp PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/gl)
 
-target_link_libraries(GLpp PUBLIC OpenGL::GL GLEW::GLEW)
 target_link_libraries(StrLib PUBLIC fmt::fmt)
-target_link_libraries(GctkGtex PUBLIC GLpp StrLib)
+target_link_libraries(GctkGtex PUBLIC OpenGL::GL GLEW::GLEW StrLib)
 target_link_libraries(GctkMath PUBLIC glm::glm StrLib)
-target_link_libraries(Gctk PUBLIC GLpp SDL2::SDL2 SDL2::SDL2main GctkMath GctkGtex StrLib angelscript)
+target_link_libraries(Gctk PUBLIC OpenGL::GL GLEW::GLEW SDL2::SDL2 SDL2::SDL2main GctkMath GctkGtex StrLib angelscript)
 
 add_executable(GctkTest test/main.cpp)
 target_link_libraries(GctkTest PRIVATE Gctk::Gctk)
