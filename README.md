@@ -6,7 +6,6 @@ This project is split into four subprojects:
 - GctkMath -> Basic math library.
 - GctkGtex -> GCTk texture format library.
 - Gctk -> Game engine core library.
-- GLpp -> OpenGL C++ wrapper.
 - StrLib -> String library used for the game engine.
 
 ## How to build:
