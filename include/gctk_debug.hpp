@@ -26,6 +26,7 @@ namespace Gctk {
 
 		ShaderCompileError,
 		ShaderLinkerError,
+		ShaderUniformNotFound,
 
 		OpenGLRuntimeError,
 

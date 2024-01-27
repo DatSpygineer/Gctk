@@ -118,7 +118,6 @@ namespace Gctk {
 	class GTex {
 		GTexHeader m_header;
 		std::vector<uint8_t> m_imageData;
-
 	public:
 		GTex(): m_header(), m_imageData() { }
 		explicit GTex(const std::vector<uint8_t>& data);

@@ -19,7 +19,28 @@ namespace Gctk {
 				m_uId(id), m_vecSize(size), m_uDepth(depth), m_uTarget(target) { }
 		Texture(const GTex& texture_data); // NOLINT: Implicit conversion is intended.
 		Texture(): Texture(0, { 0, 0 }) { }
+		Texture(const Texture& other) = default;
+		inline Texture(Texture&& other) noexcept: Texture(other.m_uId, other.m_vecSize, other.m_uDepth, other.m_uTarget) {
+			other.m_uId = 0;
+			other.m_vecSize = Vec2I { };
+			other.m_uDepth = 0;
+		}
 		~Texture();
+
+		Texture& operator= (const Texture& other) = default;
+		inline Texture& operator= (Texture&& other) noexcept {
+			m_uId = other.m_uId;
+			m_vecSize = other.m_vecSize;
+			m_uDepth = other.m_uDepth;
+			m_uTarget = other.m_uTarget;
+
+			other.m_uId = 0;
+			other.m_vecSize = Vec2I { };
+			other.m_uDepth = 0;
+		}
+
+		[[nodiscard]] inline constexpr bool operator== (const Texture& texture) const { return m_uId == texture.m_uId; }
+		[[nodiscard]] inline constexpr bool operator!= (const Texture& texture) const { return m_uId != texture.m_uId; }
 
 		static Result<Texture, ErrorCode> Load(const std::vector<uint8_t>& data);
 		static Result<Texture, ErrorCode> Load(const std::vector<uint8_t>& data, const GTexHeader& header);

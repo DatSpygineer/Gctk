@@ -23,19 +23,22 @@ namespace Gctk {
 		}
 		Shader& operator= (const Shader& shader) = default;
 
-		static bool Load(Shader& shader, const String& vertex, const String& fragment);
+		[[nodiscard]] inline constexpr bool operator== (const Shader& shader) const { return m_uId == shader.m_uId; }
+		[[nodiscard]] inline constexpr bool operator!= (const Shader& shader) const { return m_uId != shader.m_uId; }
 
-		bool setUniform(const String& name, GLint value) const;
-		bool setUniform(const String& name, GLuint value) const;
-		bool setUniform(const String& name, Float value) const;
-		bool setUniform(const String& name, const Vec2I& value) const;
-		bool setUniform(const String& name, const Vec2& value) const;
-		bool setUniform(const String& name, const Vec3& value) const;
-		bool setUniform(const String& name, const Vec4& value) const;
-		bool setUniform(const String& name, const Quat& value) const;
-		bool setUniform(const String& name, const Color& value) const;
-		bool setUniform(const String& name, const Mat4& value) const;
-		bool setUniform(const String& name, const Texture& value) const;
+		static Result<Shader, ErrorCode> Load(const String& vertex, const String& fragment);
+
+		[[nodiscard]] bool setUniform(const String& name, GLint value) const;
+		[[nodiscard]] bool setUniform(const String& name, GLuint value) const;
+		[[nodiscard]] bool setUniform(const String& name, Float value) const;
+		[[nodiscard]] bool setUniform(const String& name, const Vec2I& value) const;
+		[[nodiscard]] bool setUniform(const String& name, const Vec2& value) const;
+		[[nodiscard]] bool setUniform(const String& name, const Vec3& value) const;
+		[[nodiscard]] bool setUniform(const String& name, const Vec4& value) const;
+		[[nodiscard]] bool setUniform(const String& name, const Quat& value) const;
+		[[nodiscard]] bool setUniform(const String& name, const Color& value) const;
+		[[nodiscard]] bool setUniform(const String& name, const Mat4& value) const;
+		[[nodiscard]] bool setUniform(const String& name, const Texture& value) const;
 
 		bool getUniform(const String& name, GLint& value) const;
 		bool getUniform(const String& name, GLuint& value) const;
@@ -47,8 +50,9 @@ namespace Gctk {
 		bool getUniform(const String& name, Quat& value) const;
 		bool getUniform(const String& name, Color& value) const;
 		bool getUniform(const String& name, Mat4& value) const;
-		bool getUniform(const String& name, Texture& value) const;
 
 		void apply() const;
+
+		static const Shader Null;
 	};
 }

@@ -248,10 +248,13 @@ namespace Gctk {
 	struct Quat : public Vec4 {
 		Quat(): Vec4(0.0, 0.0, 0.0, 1.0) { }
 		Quat(Float x, Float y, Float z, Float w): Vec4(x, y, z, w) { }
-		Quat(Quat&& quat) = default;
+		Quat(Quat&& quat) noexcept = default;
 		Quat(const Quat& quat) = default;
 		Quat(const GlmQuat& quat): Vec4(quat.x, quat.y, quat.z, quat.w) { } // NOLINT: Compatibility with glm
 		explicit Quat(const std::array<Float, 4>& array): Vec4(array) { }
+
+		Quat& operator= (Quat&& other) noexcept = default;
+		Quat& operator= (const Quat& other) = default;
 
 		operator GlmQuat() const; // NOLINT: Compatibility with glm
 
@@ -275,6 +278,9 @@ namespace Gctk {
 		Mat4(const GlmMat4& mat): columns({ mat[0], mat[1], mat[2], mat[3] }) { } // NOLINT: Compatibility with glm
 		explicit Mat4(const std::array<Vec4, 4>& array): columns(array) { }
 		explicit Mat4(const std::array<Float, 16>& array);
+
+		Mat4& operator= (Mat4&& value) = default;
+		Mat4& operator= (const Mat4& value) = default;
 
 		operator GlmMat4() const; // NOLINT: Compatibility with glm
 		explicit operator std::array<Vec4, 4>() const;
@@ -324,6 +330,9 @@ namespace Gctk {
 		explicit Color(const Vec3& vec, Float a = 1.0): r(vec.x), g(vec.y), b(vec.z), a(a) { }
 		explicit Color(const std::array<Float, 3>& array, Float a = 1.0): r(array[0]), g(array[1]), b(array[2]), a(a) { }
 		explicit Color(const std::array<Float, 4>& array): r(array[0]), g(array[1]), b(array[2]), a(array[3]) { }
+
+		Color& operator= (Color&& color) noexcept = default;
+		Color& operator= (const Color& color) = default;
 
 		inline explicit operator Vec3() const { return { r, g, b }; }
 		inline explicit operator Vec4() const { return { r, g, b, a }; }

@@ -25,7 +25,7 @@ namespace Gctk {
 		}
 	}
 
-	ErrorCode Mesh::Load(Mesh& mesh, const String& path, MeshDrawType draw_type, String& metadata) {
+	Result<Mesh, ErrorCode> Mesh::Load(const String& path, MeshDrawType draw_type, String& metadata) {
 		std::ifstream ifs(path.std_str());
 		std::vector<uint8_t> data;
 
@@ -35,13 +35,13 @@ namespace Gctk {
 			ifs.seekg(std::ios::beg);
 			data.reserve(len);
 			ifs.read(reinterpret_cast<char*>(data.data()), static_cast<std::streamsize>(len));
-			return Load(mesh, data, draw_type, metadata);
+			return Load(data, draw_type, metadata);
 		}
 
 		LogError(String::Format("Could not open file \"{}\"!", path), ErrorCode::CannotOpenFile);
 		return ErrorCode::CannotOpenFile;
 	}
-	ErrorCode Mesh::Load(Mesh& mesh, const std::vector<uint8_t>& bytes, MeshDrawType draw_type, String& metadata) {
+	Result<Mesh, ErrorCode> Mesh::Load(const std::vector<uint8_t>& bytes, MeshDrawType draw_type, String& metadata) {
 		MeshHeader header { };
 		ByteReader reader(bytes);
 		uint32_t identifier = 0;
@@ -74,7 +74,7 @@ namespace Gctk {
 			reader.read(verts, header.texcoord_count, false);
 			reader.read(elements, header.element_count);
 
-			return Create(mesh, verts, elements, draw_type);
+			return Create(verts, elements, draw_type);
 		} else {
 			std::vector<double> verts;
 
@@ -82,11 +82,11 @@ namespace Gctk {
 			reader.read(verts, header.texcoord_count, false);
 			reader.read(elements, header.element_count);
 
-			return Create(mesh, verts, elements, draw_type);
+			return Create(verts, elements, draw_type);
 		}
 	}
 
-	ErrorCode Mesh::Create(Mesh& mesh, const std::vector<float>& verts, const std::vector<int>& elements, MeshDrawType draw_type) {
+	Result<Mesh, ErrorCode> Mesh::Create(const std::vector<float>& verts, const std::vector<int>& elements, MeshDrawType draw_type) {
 		GLuint vbo, vao, ebo;
 		glGenBuffers(1, &vbo);
 		glGenBuffers(1, &ebo);
@@ -124,10 +124,10 @@ namespace Gctk {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
-		return ErrorCode::None;
+		return { Mesh { vbo, vao, ebo, static_cast<uint32_t>((verts.size() / 5) * 3), MeshVertexPrecision::Float } };
 	}
 
-	ErrorCode Mesh::Create(Mesh& mesh, const std::vector<double>& verts, const std::vector<int>& elements, MeshDrawType draw_type) {
+	Result<Mesh, ErrorCode> Mesh::Create(const std::vector<double>& verts, const std::vector<int>& elements, MeshDrawType draw_type) {
 		GLuint vbo, vao, ebo;
 		glGenBuffers(1, &vbo);
 		glGenBuffers(1, &ebo);
@@ -135,15 +135,15 @@ namespace Gctk {
 
 		if (vbo == 0) {
 			LogError("Failed to load mesh: Could not to generate vertex buffer object!", ErrorCode::MeshOpenGLError);
-			return ErrorCode::MeshOpenGLError;
+			return { ErrorCode::MeshOpenGLError };
 		}
 		if (vao == 0) {
 			LogError("Failed to load mesh: Could not to generate vertex array object!", ErrorCode::MeshOpenGLError);
-			return ErrorCode::MeshOpenGLError;
+			return { ErrorCode::MeshOpenGLError };
 		}
 		if (ebo == 0 && !elements.empty()) {
 			LogError("Failed to load mesh: Could not to generate element buffer object!", ErrorCode::MeshOpenGLError);
-			return ErrorCode::MeshOpenGLError;
+			return { ErrorCode::MeshOpenGLError };
 		}
 
 		glBindVertexArray(vao);
@@ -165,7 +165,7 @@ namespace Gctk {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
-		return ErrorCode::None;
+		return { Mesh { vbo, vao, ebo, static_cast<uint32_t>((verts.size() / 5) * 3), MeshVertexPrecision::Double } };
 	}
 
 	void Mesh::draw() const {

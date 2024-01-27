@@ -31,10 +31,10 @@ namespace Gctk {
 		Mesh(const Mesh& mesh) = default;
 		~Mesh();
 
-		static ErrorCode Load(Mesh& mesh, const String& path, MeshDrawType draw_type, String& metadata);
-		static ErrorCode Load(Mesh& mesh, const std::vector<uint8_t>& bytes, MeshDrawType draw_type, String& metadata);
-		static ErrorCode Create(Mesh& mesh, const std::vector<float>& verts, const std::vector<int>& elements, MeshDrawType draw_type);
-		static ErrorCode Create(Mesh& mesh, const std::vector<double>& verts, const std::vector<int>& elements, MeshDrawType draw_type);
+		static Result<Mesh, ErrorCode> Load(const String& path, MeshDrawType draw_type, String& metadata);
+		static Result<Mesh, ErrorCode> Load(const std::vector<uint8_t>& bytes, MeshDrawType draw_type, String& metadata);
+		static Result<Mesh, ErrorCode> Create(const std::vector<float>& verts, const std::vector<int>& elements, MeshDrawType draw_type);
+		static Result<Mesh, ErrorCode> Create(const std::vector<double>& verts, const std::vector<int>& elements, MeshDrawType draw_type);
 
 		[[nodiscard]] inline constexpr MeshVertexPrecision precision() const { return m_ePrecision; }
 		[[nodiscard]] inline constexpr GLuint vbo() const { return m_uVbo; }
