@@ -21,12 +21,3 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
-
-# Do not include angel script sources
-
-submodules/angelscript/sdk
-
-# Unused/deprecated
-
-./include/gl
-./src/gl
