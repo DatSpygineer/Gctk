@@ -26,7 +26,7 @@ namespace Gctk {
 	}
 
 	Result<Mesh, ErrorCode> Mesh::Load(const String& path, MeshDrawType draw_type, String& metadata) {
-		std::ifstream ifs(path.std_str());
+		std::ifstream ifs(path.stdStr());
 		std::vector<uint8_t> data;
 
 		if (ifs.is_open()) {

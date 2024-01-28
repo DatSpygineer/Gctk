@@ -38,42 +38,43 @@ public:
 	[[nodiscard]] inline constexpr size_t length() const noexcept { return m_sString.length(); }
 	[[nodiscard]] inline constexpr size_t size() const noexcept { return m_sString.size(); }
 	[[nodiscard]] inline constexpr size_t capacity() const noexcept { return m_sString.capacity(); }
-	[[nodiscard]] inline constexpr bool is_empty() const noexcept { return m_sString.empty(); }
+	[[nodiscard]] inline constexpr bool isEmpty() const noexcept { return m_sString.empty(); }
 
 	inline constexpr char* data() { return m_sString.data(); }
 	[[nodiscard]] inline constexpr const char* data() const { return m_sString.data(); }
-	[[nodiscard]] inline constexpr const char* c_str() const { return m_sString.c_str(); }
+	[[nodiscard]] inline constexpr const char* cStr() const { return m_sString.c_str(); }
 
-	inline std::string& std_str() { return m_sString; }
-	[[nodiscard]] inline constexpr const std::string& std_str() const { return m_sString; }
+	inline std::string& stdStr() { return m_sString; }
+	[[nodiscard]] inline constexpr const std::string& stdStr() const { return m_sString; }
 
 	inline void reserve(size_t n) { m_sString.reserve(n); }
 
-	[[nodiscard]] inline bool starts_with(char c) const { return m_sString.starts_with(c); }
-	[[nodiscard]] inline bool starts_with(const String& str) const { return m_sString.starts_with(str.m_sString); }
-	[[nodiscard]] inline bool ends_with(char c) const { return m_sString.ends_with(c); }
-	[[nodiscard]] inline bool ends_with(const String& str) const { return m_sString.ends_with(str.m_sString); }
+	[[nodiscard]] inline bool startsWith(char c) const { return m_sString.starts_with(c); }
+	[[nodiscard]] inline bool startsWith(const String& str) const { return m_sString.starts_with(str.m_sString); }
+	[[nodiscard]] inline bool endsWith(char c) const { return m_sString.ends_with(c); }
+	[[nodiscard]] inline bool endsWith(const String& str) const { return m_sString.ends_with(str.m_sString); }
 
 	[[nodiscard]] inline size_t find(char c, size_t offset = 0) const { return m_sString.find(c, offset); }
 	[[nodiscard]] inline size_t find(const String& str, size_t offset = 0) const { return m_sString.find(str.m_sString, offset); }
-	[[nodiscard]] inline size_t find_last(char c, size_t offset = 0) const { return m_sString.rfind(c, offset); }
-	[[nodiscard]] inline size_t find_last(const String& str, size_t offset = 0) const { return m_sString.rfind(str.m_sString, offset); }
-	[[nodiscard]] inline size_t find_first_of(const String& str, size_t offset = 0) const { return m_sString.find_first_of(str.m_sString, offset); }
-	[[nodiscard]] inline size_t find_first_not_of(const String& str, size_t offset = 0) const { return m_sString.find_first_not_of(str.m_sString, offset); }
-	[[nodiscard]] inline size_t find_last_of(const String& str, size_t offset = 0) const { return m_sString.find_last_of(str.m_sString, offset); }
-	[[nodiscard]] inline size_t find_last_not_of(const String& str, size_t offset = 0) const { return m_sString.find_last_not_of(str.m_sString, offset); }
+	[[nodiscard]] inline size_t findLast(char c, size_t offset = 0) const { return m_sString.rfind(c, offset); }
+	[[nodiscard]] inline size_t findLast(const String& str, size_t offset = 0) const { return m_sString.rfind(str.m_sString, offset); }
+	[[nodiscard]] inline size_t findFirstOf(const String& str, size_t offset = 0) const { return m_sString.find_first_of(str.m_sString, offset); }
+	[[nodiscard]] inline size_t findFirstNotOf(const String& str, size_t offset = 0) const { return m_sString.find_first_not_of(str.m_sString, offset); }
+	[[nodiscard]] inline size_t findLastOf(const String& str, size_t offset = 0) const { return m_sString.find_last_of(str.m_sString, offset); }
+	[[nodiscard]] inline size_t findLastNotOf(const String& str, size_t offset = 0) const { return m_sString.find_last_not_of(str.m_sString, offset); }
 
 	[[nodiscard]] inline String substr(size_t start) const { return m_sString.substr(start); }
 	[[nodiscard]] inline String substr(size_t start, size_t n) const { return m_sString.substr(start, n); }
 
-	[[nodiscard]] String trim_start(const String& chars = " \t\n\r") const;
-	[[nodiscard]] String trim_end(const String& chars = " \t\n\r") const;
+	[[nodiscard]] String trimStart(const String& chars = " \t\n\r") const;
+	[[nodiscard]] String trimEnd(const String& chars = " \t\n\r") const;
 	[[nodiscard]] String trim(const String& chars = " \t\n\r") const;
 
-	[[nodiscard]] String to_lowercase() const;
-	[[nodiscard]] String to_uppercase() const;
+	[[nodiscard]] String toLowercase() const;
+	[[nodiscard]] String toUppercase() const;
 
 	inline String& append(char c) { m_sString.push_back(c); return *this; }
+	inline String& append(String&& str) { m_sString += str.m_sString; str.m_sString.clear(); return *this; }
 	inline String& append(const String& str) { m_sString += str.m_sString; return *this; }
 
 	iterator insert(size_t at, char c);
@@ -89,17 +90,22 @@ public:
 	String& replace(size_t at, size_t n, const String& replacement);
 	String& replace(const iterator& beg, const iterator& end, const String& replacement);
 	String& replace(const String& to_replace, const String& replacement);
-	String& replace_all(const String& to_replace, const String& replacement);
+	String& replaceAll(const String& to_replace, const String& replacement);
 
-	String& remove_prefix(const String& prefix);
-	String& remove_suffix(const String& suffix);
-	String& remove_prefix(char prefix);
-	String& remove_suffix(char suffix);
+	[[nodiscard]] String replaceCopy(size_t at, size_t n, const String& replacement) const;
+	[[nodiscard]] String replaceCopy(const iterator& beg, const iterator& end, const String& replacement) const;
+	[[nodiscard]] String replaceCopy(const String& to_replace, const String& replacement) const;
+	[[nodiscard]] String replaceAllCopy(const String& to_replace, const String& replacement) const;
 
-	[[nodiscard]] String without_prefix(const String& prefix) const;
-	[[nodiscard]] String without_suffix(const String& suffix) const;
-	[[nodiscard]] String without_prefix(char prefix) const;
-	[[nodiscard]] String without_suffix(char suffix) const;
+	String& removePrefix(const String& prefix);
+	String& removeSuffix(const String& suffix);
+	String& removePrefix(char prefix);
+	String& removeSuffix(char suffix);
+
+	[[nodiscard]] String withoutPrefix(const String& prefix) const;
+	[[nodiscard]] String withoutSuffix(const String& suffix) const;
+	[[nodiscard]] String withoutPrefix(char prefix) const;
+	[[nodiscard]] String withoutSuffix(char suffix) const;
 
 	[[nodiscard]] inline String offset(size_t n) const { return m_sString.substr(n); }
 
@@ -110,10 +116,10 @@ public:
 	[[nodiscard]] int compare(const String& other, size_t n) const;
 	[[nodiscard]] int compare(const String& other, size_t offset, size_t n) const;
 	[[nodiscard]] int compare(const String& other, size_t this_offset, size_t offset, size_t n) const;
-	[[nodiscard]] int compare_no_case(const String& other) const;
-	[[nodiscard]] int compare_no_case(const String& other, size_t n) const;
-	[[nodiscard]] int compare_no_case(const String& other, size_t offset, size_t n) const;
-	[[nodiscard]] int compare_no_case(const String& other, size_t this_offset, size_t offset, size_t n) const;
+	[[nodiscard]] int compareNoCase(const String& other) const;
+	[[nodiscard]] int compareNoCase(const String& other, size_t n) const;
+	[[nodiscard]] int compareNoCase(const String& other, size_t offset, size_t n) const;
+	[[nodiscard]] int compareNoCase(const String& other, size_t this_offset, size_t offset, size_t n) const;
 
 	[[nodiscard]] bool parse(signed char& value, int base = 10) const;
 	[[nodiscard]] bool parse(short& value, int base = 10) const;
@@ -133,9 +139,10 @@ public:
 	inline static String Format(const String& format, T&&... args) {
 		return { fmt::vformat(format.m_sString, fmt::make_format_args(args...)) };
 	}
-	static String FromUTF16(const wchar_t* cstr);
+
+	static String FromWCstr(const wchar_t* cstr);
 	static String FromChar(char value);
-	static String FromChar(wchar_t value);
+	static String FromWChar(wchar_t value);
 
 	static String From(uint8_t value, int base = 10);
 	static String From(uint16_t value, int base = 10);
@@ -151,8 +158,14 @@ public:
 	static String From(bool value);
 
 	[[nodiscard]] inline String operator+ (char c) const { return { m_sString + c }; }
+	[[nodiscard]] inline String operator+ (String&& other) const {
+		String result = { m_sString + other.m_sString };
+		other.m_sString.clear();
+		return result;
+	}
 	[[nodiscard]] inline String operator+ (const String& other) const { return { m_sString + other.m_sString }; }
 	inline String operator+= (char c) { m_sString += c; return *this; }
+	inline String operator+= (String&& other) { m_sString += other.m_sString; other.m_sString.clear(); return *this; }
 	inline String operator+= (const String& other) { m_sString += other.m_sString; return *this; }
 
 	[[nodiscard]] inline constexpr bool operator== (const String& other) const { return m_sString == other.m_sString; }
@@ -181,22 +194,23 @@ public:
 	friend std::istream& operator>> (std::istream& is, String& string);
 };
 
-inline String operator""_S(const char* cstr, size_t len);
+
+inline String operator""_S(const char* cstr, size_t len) { return { cstr, len }; }
 template<>
 struct fmt::formatter<String> : fmt::formatter<std::string_view> {
 	auto format(String str, fmt::format_context& ctx) const {
-		return fmt::formatter<std::string_view>::format(str.std_str(), ctx);
+		return fmt::formatter<std::string_view>::format(str.stdStr(), ctx);
 	}
 };
 
 class Exception : public std::exception {
 	String m_sMessage;
 public:
-	explicit Exception(String&& message) noexcept: m_sMessage(std::move(message)) { }
-	explicit Exception(const String& message) noexcept: m_sMessage(message) { }
+	explicit Exception(String&& message) noexcept: String(std::move(message)) { }
+	explicit Exception(const String& message) noexcept: String(message) { }
 	template<typename ...T>
-	explicit Exception(const String& format, T... args) noexcept: m_sMessage({ fmt::vformat(format.std_str(), fmt::make_format_args(args...)) }) { }
+	explicit Exception(const String& format, T... args) noexcept: String({ fmt::vformat(format.stdStr(), fmt::make_format_args(args...)) }) { }
 
 	[[nodiscard]] virtual String message() const noexcept { return m_sMessage; }
-	[[nodiscard]] const char* what() const noexcept override { return message().c_str(); }
+	[[nodiscard]] const char* what() const noexcept override { return message().cStr(); }
 };

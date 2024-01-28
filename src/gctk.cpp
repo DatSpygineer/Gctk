@@ -6,20 +6,22 @@ namespace Gctk {
 	Result<Version, ErrorCode> Version::FromString(const String& str) {
 		VersionCycle lifeCycle = VersionCycle::Release;
 
-		if (str.ends_with("PA") || str.ends_with(" PA") || str.ends_with("Pre-Alpha") || str.ends_with(" Pre-Alpha")) {
+		if (str.endsWith("PA") || str.endsWith(" PA") || str.endsWith("Pre-Alpha") || str.endsWith(" Pre-Alpha")) {
 			lifeCycle = VersionCycle::PreAlpha;
-		} else if (str.ends_with("A") || str.ends_with(" A") || str.ends_with("Alpha") || str.ends_with(" Alpha")) {
+		} else if (str.endsWith("A") || str.endsWith(" A") || str.endsWith("Alpha") || str.endsWith(" Alpha")) {
 			lifeCycle = VersionCycle::Alpha;
-		} else if (str.ends_with("B") || str.ends_with(" B") || str.ends_with("Beta") || str.ends_with(" Beta")) {
+		} else if (str.endsWith("B") || str.endsWith(" B") || str.endsWith("Beta") || str.endsWith(" Beta")) {
 			lifeCycle = VersionCycle::Beta;
-		} else if (str.ends_with("RC") || str.ends_with(" RC") || str.ends_with("Release-Candidate") || str.ends_with(" Release-Candidate")) {
+		} else if (str.endsWith("RC") || str.endsWith(" RC") || str.endsWith("Release-Candidate") ||
+				   str.endsWith(" Release-Candidate")) {
 			lifeCycle = VersionCycle::ReleaseCandidate;
-		} else if (str.ends_with("PR") || str.ends_with(" PR") || str.ends_with("Pre-Release") || str.ends_with(" Pre-Release")) {
+		} else if (str.endsWith("PR") || str.endsWith(" PR") || str.endsWith("Pre-Release") ||
+				   str.endsWith(" Pre-Release")) {
 			lifeCycle = VersionCycle::PreRelease;
 		}
 
 		std::vector<String> tokens;
-		if (str.starts_with("v")) {
+		if (str.startsWith("v")) {
 			tokens = str.substr(1).trim().split('.');
 		} else {
 			tokens = str.trim().split('.');
@@ -59,7 +61,7 @@ namespace Gctk {
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-		m_pWindow = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
+		m_pWindow = SDL_CreateWindow(name.cStr(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
 		if (m_pWindow != nullptr) {
 			throw std::runtime_error(fmt::format("Failed to create window: \"{}\"", SDL_GetError()));
 		}
@@ -157,7 +159,7 @@ namespace Gctk {
 	}
 	void Window::title(const String& title) {
 #ifndef NDEBUG
-		SDL_SetWindowTitle(m_pWindow, debug_title(title).c_str());
+		SDL_SetWindowTitle(m_pWindow, debug_title(title).cStr());
 #else
 		SDL_SetWindowTitle(m_pWindow, title.c_str());
 #endif

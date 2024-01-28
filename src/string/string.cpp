@@ -19,25 +19,25 @@ String& String::operator=(String&& other) noexcept {
 	return *this;
 }
 
-String String::trim_start(const String& chars) const {
-	size_t idx = find_first_not_of(chars);
+String String::trimStart(const String& chars) const {
+	size_t idx = findFirstNotOf(chars);
 	if (idx == NoFind) {
 		return "";
 	}
 	return substr(idx);
 }
-String String::trim_end(const String& chars) const {
-	size_t idx = find_last_not_of(chars);
+String String::trimEnd(const String& chars) const {
+	size_t idx = findLastNotOf(chars);
 	if (idx == NoFind) {
 		return "";
 	}
 	return substr(0, idx + 1);
 }
 String String::trim(const String& chars) const {
-	return trim_start(chars).trim_end(chars);
+	return trimStart(chars).trimStart(chars);
 }
 
-String String::to_lowercase() const {
+String String::toLowercase() const {
 	String str = *this;
 	for (char& c : str) {
 		if (c >= 'A' && c <= 'Z') {
@@ -46,7 +46,7 @@ String String::to_lowercase() const {
 	}
 	return str;
 }
-String String::to_uppercase() const {
+String String::toUppercase() const {
 	String str = *this;
 	for (char& c : str) {
 		if (c >= 'a' && c <= 'z') {
@@ -98,7 +98,7 @@ String& String::replace(const String& to_replace, const String& replacement) {
 	}
 	return *this;
 }
-String& String::replace_all(const String& to_replace, const String& replacement) {
+String& String::replaceAll(const String& to_replace, const String& replacement) {
 	size_t idx;
 	while ((idx = find(to_replace)) != NoFind) {
 		replace(idx, to_replace.length(), replacement);
@@ -106,53 +106,74 @@ String& String::replace_all(const String& to_replace, const String& replacement)
 	return *this;
 }
 
-String& String::remove_prefix(const String& prefix) {
-	if (starts_with(prefix)) {
+String String::replaceCopy(size_t at, size_t n, const String& replacement) const {
+	String str = *this;
+	str.replace(at, n, replacement);
+	return str;
+}
+String String::replaceCopy(const iterator& beg, const iterator& end, const String& replacement) const {
+	String str = *this;
+	str.replace(beg, end, replacement);
+	return str;
+}
+String String::replaceCopy(const String& to_replace, const String& replacement) const {
+	String str = *this;
+	str.replace(to_replace, replacement);
+	return str;
+}
+String String::replaceAllCopy(const String& to_replace, const String& replacement) const {
+	String str = *this;
+	str.replaceAll(to_replace, replacement);
+	return str;
+}
+
+String& String::removePrefix(const String& prefix) {
+	if (startsWith(prefix)) {
 		erase(0, prefix.length());
 	}
 
 	return *this;
 }
-String& String::remove_suffix(const String& suffix) {
-	if (ends_with(suffix)) {
+String& String::removeSuffix(const String& suffix) {
+	if (endsWith(suffix)) {
 		erase(length() - suffix.length() - 1, suffix.length());
 	}
 
 	return *this;
 }
-String& String::remove_prefix(char prefix) {
-	if (starts_with(prefix)) {
+String& String::removePrefix(char prefix) {
+	if (startsWith(prefix)) {
 		erase(0);
 	}
 	return *this;
 }
-String& String::remove_suffix(char suffix) {
-	if (ends_with(suffix)) {
+String& String::removeSuffix(char suffix) {
+	if (endsWith(suffix)) {
 		erase(length() - 1);
 	}
 	return *this;
 }
 
-String String::without_prefix(const String& prefix) const {
-	if (starts_with(prefix)) {
+String String::withoutPrefix(const String& prefix) const {
+	if (startsWith(prefix)) {
 		return substr(prefix.length());
 	}
 	return *this;
 }
-String String::without_suffix(const String& suffix) const {
-	if (ends_with(suffix)) {
+String String::withoutSuffix(const String& suffix) const {
+	if (endsWith(suffix)) {
 		return substr(0, length() - suffix.length() - 1);
 	}
 	return *this;
 }
-String String::without_prefix(char prefix) const {
-	if (starts_with(prefix)) {
+String String::withoutPrefix(char prefix) const {
+	if (startsWith(prefix)) {
 		return substr(1);
 	}
 	return *this;
 }
-String String::without_suffix(char suffix) const {
-	if (ends_with(suffix)) {
+String String::withoutSuffix(char suffix) const {
+	if (endsWith(suffix)) {
 		return substr(0, length() - 1);
 	}
 	return *this;
@@ -171,16 +192,16 @@ int String::compare(const String& other, size_t this_offset, size_t offset, size
 	return std::strncmp(m_sString.data() + this_offset, other.m_sString.data() + offset, n);
 }
 
-int String::compare_no_case(const String& other) const {
+int String::compareNoCase(const String& other) const {
 	return strcasecmp(m_sString.data(), other.m_sString.data());
 }
-int String::compare_no_case(const String& other, size_t n) const {
+int String::compareNoCase(const String& other, size_t n) const {
 	return strncasecmp(m_sString.data(), other.m_sString.data(), n);
 }
-int String::compare_no_case(const String& other, size_t offset, size_t n) const {
+int String::compareNoCase(const String& other, size_t offset, size_t n) const {
 	return strncasecmp(m_sString.data(), other.m_sString.data() + offset, n);
 }
-int String::compare_no_case(const String& other, size_t this_offset, size_t offset, size_t n) const {
+int String::compareNoCase(const String& other, size_t this_offset, size_t offset, size_t n) const {
 	return strncasecmp(m_sString.data() + this_offset, other.m_sString.data() + offset, n);
 }
 
@@ -289,7 +310,7 @@ bool String::parse(long double& value) const {
 	return true;
 }
 
-String String::FromUTF16(const wchar_t* cstr) {
+String String::FromWCstr(const wchar_t* cstr) {
 	const size_t n = wcslen(cstr);
 	String str;
 	str.reserve(n);
@@ -300,14 +321,14 @@ String String::FromUTF16(const wchar_t* cstr) {
 }
 
 String String::FromChar(char value) {
-	return String(value, 1);
+	return { value, 1 };
 }
-String String::FromChar(wchar_t value) {
+String String::FromWChar(wchar_t value) {
 	char mbc = 0;
 	if (wctomb(&mbc, value) < 0) {
 		return "?";
 	}
-	return String(mbc, 1);
+	return { mbc, 1 };
 }
 
 const size_t String::NoFind = std::string::npos;
@@ -322,7 +343,7 @@ std::vector<String> String::split(char delim) const {
 		str.erase(0, idx);
 	}
 
-	if (!str.is_empty()) {
+	if (!str.isEmpty()) {
 		tokens.push_back(std::move(str));
 	}
 	return tokens;
@@ -337,7 +358,7 @@ std::vector<String> String::split(const String& delim) const {
 		str.erase(0, idx + delim.length());
 	}
 
-	if (!str.is_empty()) {
+	if (!str.isEmpty()) {
 		tokens.push_back(std::move(str));
 	}
 	return tokens;

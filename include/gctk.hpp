@@ -93,6 +93,6 @@ struct fmt::formatter<Gctk::VersionCycle> : fmt::formatter<std::string_view> {
 template<>
 struct fmt::formatter<Gctk::Version> : fmt::formatter<std::string_view> {
 	auto format(Gctk::Version cycle, fmt::format_context& ctx) const {
-		return fmt::formatter<std::string_view>::format(cycle.to_string().std_str(), ctx);
+		return fmt::formatter<std::string_view>::format(cycle.to_string().stdStr(), ctx);
 	}
 };

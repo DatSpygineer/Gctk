@@ -29,6 +29,7 @@ target_compile_definitions(glm PUBLIC GLM_ENABLE_EXPERIMENTAL)
 file(GLOB GCTK_SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/submodules/angelscript/sdk/angelscript/include)
 
 add_library(Gctk STATIC ${GCTK_SOURCES})
 add_library(Gctk::Gctk ALIAS Gctk)
@@ -36,7 +37,7 @@ add_library(GctkGtex STATIC ${CMAKE_CURRENT_LIST_DIR}/src/gtex/gctk_gtex.cpp)
 add_library(Gctk::Gtex ALIAS GctkGtex)
 add_library(GctkMath STATIC ${CMAKE_CURRENT_LIST_DIR}/src/math/gctk_math.cpp)
 add_library(Gctk::Math ALIAS GctkMath)
-add_library(StrLib STATIC ${CMAKE_CURRENT_LIST_DIR}/src/string/date.cpp ${CMAKE_CURRENT_LIST_DIR}/src/string/string.cpp)
+add_library(StrLib STATIC ${CMAKE_CURRENT_LIST_DIR}/src/string/date.cpp ${CMAKE_CURRENT_LIST_DIR}/src/string/string.cpp ${CMAKE_CURRENT_LIST_DIR}/src/string/io.cpp)
 add_library(Gctk::StrLib ALIAS StrLib)
 
 target_include_directories(GctkMath PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include/math)

@@ -30,7 +30,7 @@ namespace Gctk {
 		char info_log[128] = { 0 };
 		GLint status = 0;
 		GLuint vert = glCreateShader(GL_VERTEX_SHADER);
-		const char* src = vertex.c_str();
+		const char* src = vertex.cStr();
 		glShaderSource(vert, 1, &src, nullptr);
 		glCompileShader(vert);
 		glGetShaderiv(vert, GL_COMPILE_STATUS, &status);
@@ -43,7 +43,7 @@ namespace Gctk {
 		}
 
 		GLuint frag = glCreateShader(GL_FRAGMENT_SHADER);
-		src = fragment.c_str();
+		src = fragment.cStr();
 		glShaderSource(frag, 1, &src, nullptr);
 		glCompileShader(frag);
 		glGetShaderiv(frag, GL_COMPILE_STATUS, &status);
@@ -77,7 +77,7 @@ namespace Gctk {
 	}
 
 	bool Shader::setUniform(const String& name, GLint value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -88,7 +88,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, GLuint value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -99,7 +99,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, Float value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -110,7 +110,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, const Vec2I& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -121,7 +121,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, const Vec2& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -132,7 +132,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, const Vec3& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -143,7 +143,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, const Vec4& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -154,7 +154,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, const Quat& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -165,7 +165,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, const Color& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -176,7 +176,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, const Mat4& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -187,7 +187,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::setUniform(const String& name, const Texture& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -198,7 +198,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, GLint& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -209,7 +209,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, GLuint& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -220,7 +220,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, Float& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -231,7 +231,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, Vec2I& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -244,7 +244,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, Vec2& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -257,7 +257,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, Vec3& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -270,7 +270,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, Vec4& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -283,7 +283,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, Quat& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -296,7 +296,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, Color& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
@@ -309,7 +309,7 @@ namespace Gctk {
 		return true;
 	}
 	bool Shader::getUniform(const String& name, Mat4& value) const {
-		GLint location = glGetUniformLocation(m_uId, name.c_str());
+		GLint location = glGetUniformLocation(m_uId, name.cStr());
 		if (location < 0) {
 			LogError(String::Format("Could not locate shader uniform {}!", name), ErrorCode::ShaderUniformNotFound);
 			return false;
