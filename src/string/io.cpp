@@ -240,6 +240,10 @@ bool Path::copy(const Path& dest) const {
 	return true;
 }
 
+Path Path::CurrentPath() {
+	return { String { fs::current_path().string() } };
+}
+
 File::File(const Path& path, FileMode mode) {
 	const char* mode_str;
 	switch (mode) {

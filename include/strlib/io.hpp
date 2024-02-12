@@ -104,6 +104,8 @@ public:
 	inline constexpr bool operator!= (const Path& path) const { return m_sInternalString == path.m_sInternalString; }
 
 	[[nodiscard]] inline explicit operator const String&() const { return m_sInternalString; }
+
+	static Path CurrentPath();
 };
 
 class File {

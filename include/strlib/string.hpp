@@ -70,6 +70,11 @@ public:
 	[[nodiscard]] String trimEnd(const String& chars = " \t\n\r") const;
 	[[nodiscard]] String trim(const String& chars = " \t\n\r") const;
 
+	inline char& first() { return m_sString.front(); }
+	[[nodiscard]] inline char first() const { return m_sString.front(); }
+	inline char& last() { return m_sString.back(); }
+	[[nodiscard]] inline char last() const { return m_sString.back(); }
+
 	[[nodiscard]] String toLowercase() const;
 	[[nodiscard]] String toUppercase() const;
 
