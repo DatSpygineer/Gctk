@@ -42,15 +42,18 @@ namespace Gctk {
 		static const Version EngineVersion;
 	};
 
-	class Window {
+	class Game {
 		SDL_Window* m_pWindow;
 		SDL_Event m_sEvent;
 		void* m_pContext;
 		String m_sAuthor, m_sName;
 		double m_fTimeLast;
+
+		Path m_sGameRoot;
+		static std::shared_ptr<Game> _instance;
 	public:
-		Window(const String& author, const String& name, size_t width, size_t height);
-		~Window();
+		Game(int argc, char** argv, const String& author, const String& name, size_t width, size_t height);
+		~Game();
 
 		virtual void onInit() { }
 		virtual void onUpdate(double delta) { }
@@ -70,6 +73,10 @@ namespace Gctk {
 
 		[[nodiscard]] String author() const { return m_sAuthor; }
 		[[nodiscard]] String name() const { return m_sName; }
+
+		[[nodiscard]] inline Path rootPath() const { return m_sGameRoot; }
+
+		static std::shared_ptr<Game> Instance();
 	private:
 		[[nodiscard]] static String debug_title(const String& title);
 	};

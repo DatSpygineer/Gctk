@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fstream>
+#include <strlib/io.hpp>
 #include <strlib/string.hpp>
 
 namespace Gctk {
@@ -33,6 +34,12 @@ namespace Gctk {
 		CannotOpenFile
 	};
 
+	struct DebugInfo {
+		int linenumber;
+		const char* callerfile;
+		const char* callerfunction;
+	};
+
 	class EngineError : public Exception {
 		ErrorCode m_eCode;
 	public:
@@ -45,10 +52,15 @@ namespace Gctk {
 	void BeginLogger();
 	void EndLogger();
 
-	void Log(const String& message);
-	void LogWarning(const String& message);
-	void LogError(const String& message, ErrorCode code);
+	void Log(const String& message, const DebugInfo& info);
+	void LogWarning(const String& message, const DebugInfo& info);
+	void LogError(const String& message, ErrorCode code, const DebugInfo& info);
 }
+
+#define GCTK_LOG(__message__) Gctk::Log(__message__, DebugInfo { __LINE__, __FILE__, __func__ })
+#define GCTK_LOG_WARNING(__message__) Gctk::LogWarning(__message__, DebugInfo { __LINE__, __FILE__, __func__ })
+#define GCTK_LOG_ERROR(__message__, code) Gctk::LogError(__message__, code, DebugInfo { __LINE__, __FILE__, __func__ })
+
 template<>
 struct fmt::formatter<Gctk::ErrorCode> : fmt::formatter<std::string_view> {
 	auto format(const Gctk::ErrorCode& code, fmt::format_context & ctx) const {

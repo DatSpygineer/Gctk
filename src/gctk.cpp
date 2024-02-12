@@ -53,10 +53,16 @@ namespace Gctk {
 
 	const Version Version::EngineVersion = { 1, 0, 0, VersionCycle::PreAlpha };
 
-	Window::Window(const String& author, const String& name, size_t width, size_t height): m_sEvent({ 0 }) {
+	std::shared_ptr<Game> Game::_instance = nullptr;
+	std::shared_ptr<Game> Game::Instance() { return Game::_instance; }
+
+	Game::Game(int argc, char** argv, const String& author, const String& name, size_t width, size_t height):
+		m_sEvent({ 0 }) {
 		if (SDL_WasInit(0) == 0 && SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 			throw std::runtime_error(fmt::format("Failed to initialize SDL2: \"{}\"", SDL_GetError()));
 		}
+
+		m_sGameRoot = Path(argv[0]).parent();
 
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
@@ -80,8 +86,9 @@ namespace Gctk {
 
 		m_fTimeLast = static_cast<double>(SDL_GetTicks64()) / 1000.0;
 		onInit();
+		_instance = std::make_shared<Game>(*this);
 	}
-	Window::~Window() {
+	Game::~Game() {
 		if (m_pContext) {
 			SDL_GL_DeleteContext(m_pContext);
 		}
@@ -94,7 +101,7 @@ namespace Gctk {
 		}
 	}
 
-	bool Window::update() {
+	bool Game::update() {
 		while (SDL_PollEvent(&m_sEvent) != 0) {
 			switch (m_sEvent.type) {
 				case SDL_QUIT: {
@@ -128,25 +135,25 @@ namespace Gctk {
 		return true;
 	}
 
-	Vec2I Window::position() const {
+	Vec2I Game::position() const {
 		int x, y;
 		SDL_GetWindowPosition(m_pWindow, &x, &y);
 		return { x, y };
 	}
-	void Window::position(const Vec2I& pos) {
+	void Game::position(const Vec2I& pos) {
 		SDL_SetWindowPosition(m_pWindow, pos.x, pos.y);
 	}
 
-	Vec2I Window::size() const {
+	Vec2I Game::size() const {
 		int w, h;
 		SDL_GetWindowSize(m_pWindow, &w, &h);
 		return {w, h };
 	}
-	void Window::size(const Vec2I& pos) {
+	void Game::size(const Vec2I& pos) {
 		SDL_SetWindowSize(m_pWindow, pos.x, pos.y);
 	}
 
-	String Window::title() const {
+	String Game::title() const {
 #ifndef NDEBUG
 		String title = SDL_GetWindowTitle(m_pWindow);
 		if (size_t idx = title.find('|'); idx != String::NoFind) {
@@ -157,7 +164,7 @@ namespace Gctk {
 		return SDL_GetWindowTitle(m_pWindow);
 #endif
 	}
-	void Window::title(const String& title) {
+	void Game::title(const String& title) {
 #ifndef NDEBUG
 		SDL_SetWindowTitle(m_pWindow, debug_title(title).cStr());
 #else
@@ -165,7 +172,7 @@ namespace Gctk {
 #endif
 	}
 
-	String Window::debug_title(const String& title) {
+	String Game::debug_title(const String& title) {
 		return String::Format("{} | GCTK DEBUG v{} | OpenGL v{}", title, Version::EngineVersion, reinterpret_cast<const char*>(glGetString(GL_VERSION)));
 	}
 }
