@@ -206,8 +206,8 @@ struct fmt::formatter<String> : fmt::formatter<std::string_view> {
 class Exception : public std::exception {
 	String m_sMessage;
 public:
-	explicit Exception(String&& message) noexcept: String(std::move(message)) { }
-	explicit Exception(const String& message) noexcept: String(message) { }
+	explicit Exception(String&& message) noexcept: m_sMessage(std::move(message)) { }
+	explicit Exception(const String& message) noexcept: m_sMessage(message) { }
 	template<typename ...T>
 	explicit Exception(const String& format, T... args) noexcept: String({ fmt::vformat(format.stdStr(), fmt::make_format_args(args...)) }) { }
 

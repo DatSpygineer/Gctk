@@ -1,6 +1,6 @@
 # Game Creation Took-kit (GCTk)
 
-Simple, cross-platform 2D/3D game engine using OpenGL 4.6 with AngelScript bindings.
+Simple, cross-platform 2D/3D game engine using OpenGL 4.6 with Lua bindings.
 
 This project is split into four subprojects:
 - GctkMath -> Basic math library.
@@ -45,7 +45,7 @@ After all dependencies are met, the project should build with no issues.
 
 ## Dependencies:
 - GLEW
-- AngelScript (Version 2.36.1)
+- Lua (as submodule)
 - SDL2
 - GLM (as submodule)
 - FMT lib (as submodule)

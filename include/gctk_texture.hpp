@@ -37,6 +37,8 @@ namespace Gctk {
 			other.m_uId = 0;
 			other.m_vecSize = Vec2I { };
 			other.m_uDepth = 0;
+
+			return *this;
 		}
 
 		[[nodiscard]] inline constexpr bool operator== (const Texture& texture) const { return m_uId == texture.m_uId; }

@@ -68,6 +68,14 @@ struct fmt::formatter<Gctk::ErrorCode> : fmt::formatter<std::string_view> {
 			case Gctk::ErrorCode::TextureIdentifierError:	name = "TextureIdentifierError"; break;
 			case Gctk::ErrorCode::TextureOpenGLError:		name = "TextureOpenGLError"; break;
 			case Gctk::ErrorCode::OpenGLRuntimeError:		name = "OpenGLRuntimeError"; break;
+			case Gctk::ErrorCode::MeshLoadError:			name = "MeshLoadError"; break;
+			case Gctk::ErrorCode::MeshHeaderMissing:		name = "MeshHeaderMissing"; break;
+			case Gctk::ErrorCode::MeshIdentifierError:		name = "MeshIdentifierError"; break;
+			case Gctk::ErrorCode::MeshOpenGLError:			name = "MeshOpenGLError"; break;
+			case Gctk::ErrorCode::ShaderCompileError:		name = "ShaderCompileError"; break;
+			case Gctk::ErrorCode::ShaderLinkerError:		name = "ShaderLinkerError"; break;
+			case Gctk::ErrorCode::ShaderUniformNotFound:	name = "ShaderUniformNotFound"; break;
+			case Gctk::ErrorCode::CannotOpenFile:			name = "CannotOpenFile"; break;
 		}
 
 		return fmt::formatter<std::string_view>::format(name, ctx);
